@@ -74,11 +74,15 @@ Special thanks to the creators of [ToMeSD](https://github.com/dbolya/tomesd) upo
 ## 🔗 Citation
 If you use this codebase, or SiTo inspires your work, we would greatly appreciate it if you could star the repository and cite it using the following BibTeX entry.
 ```
-@article{article,
-author = {Zhang, Evelyn and Tang, Jiayi and Ning, Xuefei and Zhang, Linfeng},
-year = {2024},
-month = {12},
-pages = {},
-title = {Training-Free and Hardware-Friendly Acceleration for Diffusion Models via Similarity-based Token Pruning}
+@inproceedings{zhang2025sito,
+  title={Training-Free and Hardware-Friendly Acceleration for Diffusion Models via Similarity-based Token Pruning},
+  author={Zhang, Evelyn and Tang, Jiayi and Ning, Xuefei and Zhang, Linfeng},
+  booktitle={Proceedings of the AAAI Conference on Artificial Intelligence},
+  volume={},
+  number={},
+  pages={},
+  year={2025}
 }
 ```
+## :e-mail: Contact
+If you have more questions or are seeking collaboration, feel free to contact me via email at [`yuweizhang2002@gmail.com`](mailto:yuweizhang2002@gmail.com).
