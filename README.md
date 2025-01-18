@@ -85,4 +85,4 @@ If you use this codebase, or SiTo inspires your work, we would greatly appreciat
 }
 ```
 ## :e-mail: Contact
-If you have more questions or are seeking collaboration, feel free to contact me via email at [`yuweizhang2002@gmail.com`](mailto:yuweizhang2002@gmail.com).
+If you have more questions or are seeking collaboration, feel free to contact me via email at [`evelyn2002@163.com`](mailto:yuweizhang2002@gmail.com).
