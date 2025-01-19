@@ -8,8 +8,18 @@
 ## 🔥 News
 - `2024/12/10`🤗🤗 SiTo is accepted by AAAI-2025
 - `2025/1/18` 💥💥 We release the code for our work [SiTo](https://github.com/EvelynZhang-epiclab/SiTo) about accelerating diffusion models for FREE. 🎉 **The zero-shot evaluation shows SiTo leads to 1.90x and 1.75x acceleration on COCO30K and ImageNet with 1.33 and 1.15 FID reduction at the same time. Besides, SiTo has no training requirements and does not require any calibration data, making it plug-and-play in real-world applications.**
+## 🌸 Abstract
+<details>
+
+<summary> CLICK for full abstract </summary>
+
+> The excellent performance of diffusion models in image generation is always accompanied by overlarge computation costs, which have prevented the application of diffusion models in edge devices and interactive applications. Previous works mainly focus on using fewer sampling steps and compressing the denoising network of diffusion models, while this paper proposes to accelerate diffusion models by introducing **SiTo, a similarity-based token pruning method** that adaptive prunes the redundant tokens in the input data. SiTo is designed to maximize the similarity between model prediction with and without token pruning by using cheap and hardware-friendly operations, leading to significant acceleration ratios without performance drop, and even sometimes improvements in the generation quality. For instance, **the zero-shot evaluation shows SiTo leads to 1.90x and 1.75x acceleration on COCO30K and ImageNet with 1.33 and 1.15 FID reduction** at the same time. Besides, SiTo has **no training requirements and does not require any calibration data**, making it plug-and-play in real-world applications.
+
+</details>
+
+
 ## 🚀Overview
-### Method
+
 SiTo has a three-stage pipeline. 
 - SiTo carefully selects a set of **base tokens** which are utilized as the base to select and recover the pruned tokens.
 - SiTo selects the tokens that have the highest similarity to the base tokens as the **pruned tokens**.
@@ -21,14 +31,15 @@ SiTo has a three-stage pipeline.
   <em>The pipeline of SiTo on the example of self-attention. (a) Base Token Selection: We compute the Cosine Similarity between all the tokens. For each token, we sum its similarity to all the tokens as the SimScore. Then, Gaussian Noise is added to the SimScore introduces randomness, preventing identical base and pruned token choices across timesteps. Finally, the token that has the highest Noise SimScore in an image patch is selected as a base token. (b) Pruned Token Selection: The tokens with the highest similarity to the base tokens are selected as pruned tokens. (c) Pruned Token Recovery: The unpruned tokens are fed to the neural layers. Then, the pruned tokens are recovered by copying from their most similar base tokens.</em>
 </p>
 
-### 👀 Qualitative Result
+## 📊Result
+### Qualitative Result
 <p align="center">
   <img src="https://github.com/EvelynZhang-epiclab/EvelynImgs/blob/main/sito_vis.jpg" alt="Overall Workflow of the CPA-Enhancer Framework" style="width:88%">
   <br>
   <em>Visual comparisons with the manually crafted challenging prompts. We apply ToMeSD and SiTo on stable diffusion v1.5, achieving similar speed-up ratios of 1.63 and 1.65, respectively. Under these comparable conditions, our method generated more realistic, detailed images that better aligned with the original images and text prompts.</em>
 </p>
 
-### 📊 Quantitative Result
+### Quantitative Result
 <p align="center">
   <img src="https://github.com/EvelynZhang-epiclab/EvelynImgs/blob/main/sito_result.jpg" alt="Overall Workflow of the CPA-Enhancer Framework" style="width:88%">
   <br>
@@ -36,17 +47,19 @@ SiTo has a three-stage pipeline.
 </p>
 
 ## 🛠 Usage
+### Dependencies
+To run SiTo for SD, PyTorch version `1.12.1` or higher is required (due to the use of `scatter_reduce`). You can download it from [here](https://pytorch.org/get-started/locally/).
+###  Installation
+```shell
+git clone https://github.com/EvelynZhang-epiclab/SiTo.git
+```
+### Apply SiTo
 Applying SiTo is very simple, you just need the following two steps (and no additional training is required):
 
-1. Add our code package `sitosd` in the scripts.
+Step1: Add our code package `sito` in the `scripts`.
 
-2. Apply SiTo in SD v1 and SD v2:
-
-SD1: https://github.com/runwayml/stable-diffusion/blob/08ab4d326c96854026c4eb3454cd3b02109ee982/scripts/txt2img.py#L241
-
-SD2: https://github.com/Stability-AI/stablediffusion/blob/fc1488421a2761937b9d54784194157882cbc3b1/scripts/txt2img.py#L220
-
-Add the following code at the respective lines:
+Step2：Apply SiTo in SD v1 and SD v2:
+Add the following code at the respective lines of [SD v1](https://github.com/runwayml/stable-diffusion/blob/08ab4d326c96854026c4eb3454cd3b02109ee982/scripts/txt2img.py#L241) or [SD v2](https://github.com/Stability-AI/stablediffusion/blob/fc1488421a2761937b9d54784194157882cbc3b1/scripts/txt2img.py#L220):
 
 ```python
 import sito
@@ -66,6 +79,62 @@ sito.apply_patch(model,
         sim_beta:float = 1 
 )
 ```
+### Run SiTo
+
+~~~python
+# After setting up the environment, compile it.
+pip install -v -e .
+~~~
+
+- Generate an image based on a prompt.
+~~~
+python scripts/txt2img.py --n_iter 1 --n_samples 1 --W 512 --H 512 --ddim_steps 50 --plms --skip_grid --prompt "a photograph of an astronaut riding a horse"
+~~~
+
+- Read prompts from a `.txt` file to generate images. Use `--from-file imagenet.txt` for generating ImageNet 2k images, and `--from-file coco30k.txt` for generating COCO 30k images. 
+
+~~~
+python scripts/txt2img.py --n_iter 2 --n_samples 4 --W 512 --H 512 --ddim_steps 50 --plms --skip_grid --from-file imagenet.txt
+~~~
+
+- When measuring speed, set `n_iter` to at least 2 (because at least one iteration is required for warm-up). Enable both `--skip_save` and `--skip_grid` to avoid saving images.
+
+~~~
+python scripts/txt2img.py --n_iter 3 --n_samples 8 --W 512 --H 512 --ddim_steps 50 --plms --skip_save --skip_grid --from-file xxx.txt
+~~~
+
+## Evaluation
+
+### FID
+
+This implementation references the [pytorch-fid](https://github.com/mseitzer/pytorch-fid) repository.
+
+- Download Data
+
+| Dataset              | Download Link                                                                 | Extraction Code |
+|----------------------|-------------------------------------------------------------------------------|-----------------|
+| **imagenet5k.npz**    | [Download from Baidu](https://pan.baidu.com/s/1EtHNHH5CLGeubB3wl3qDwg)        | `f061`          |
+| **imagenet50k.npz**   | [Download from Baidu](https://pan.baidu.com/s/1dkakRoaVWU3iWRrgSTsIvA)        | `hsy2`          |
+
+~~~python
+python -m pytorch_fid path/to/[datasets].npz path/to/images
+~~~
+
+### Time
+
+- It is recommended to use torch.cuda.Event to measure time (since GPUs perform parallel computation, using the regular time.time can be inaccurate). Refer to the following code:
+
+~~~py
+time0= torch.cuda.Event(enable_timing=True)
+time1= torch.cuda.Event(enable_timing=True)
+time0.record()
+# Place the code segment that needs to be measured for time here.
+time1.record()
+torch.cuda.synchronize() 
+time_consume=time0.elapsed_time(time1)
+~~~
+
+_Note: When measuring speed, it is recommended to perform a warm-up (for example, exclude the time taken for the first few iterations from the statistics)._
 
 ## 💐 Acknowledgments
 
