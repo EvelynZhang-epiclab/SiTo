@@ -102,19 +102,32 @@ python scripts/txt2img.py --n_iter 2 --n_samples 4 --W 512 --H 512 --ddim_steps 
 ~~~
 python scripts/txt2img.py --n_iter 3 --n_samples 8 --W 512 --H 512 --ddim_steps 50 --plms --skip_save --skip_grid --from-file xxx.txt
 ~~~
+| Prompt File | Download Link | Extraction Code |
+| --- | --- | --- |
+| **imagenet.txt** | [Download imagenet.txt from Baidu](https://pan.baidu.com/s/19NQbMTmsCTCPz-NF2TjiWw) | `y1lo` |
+| **coco30k.txt** | [Download coco30k.txt from Baidu](https://pan.baidu.com/s/1LveKxVASHzepwVwerdnhPA) | `jmhn` |
 
-## Evaluation
+## 📐 Evaluation
 
 ### FID
 
 This implementation references the [pytorch-fid](https://github.com/mseitzer/pytorch-fid) repository.
+Modify [this line](https://github.com/mseitzer/pytorch-fid/blob/master/src/pytorch_fid/fid_score.py#L146C3-L146C64])in  pytorch_fid/fid_score.py as follows:
+~~~python
+dataset = ImagePathDataset(files, transforms=my_transform)
+my_transform = TF.Compose([
+    TF.Resize((512, 512)),
+    TF.ToTensor(),
+    TF.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
+])
+~~~
 
 - Download Data
 
-| Dataset              | Download Link                                                                 | Extraction Code |
-|----------------------|-------------------------------------------------------------------------------|-----------------|
-| **imagenet5k.npz**    | [Download from Baidu](https://pan.baidu.com/s/1EtHNHH5CLGeubB3wl3qDwg)        | `f061`          |
-| **imagenet50k.npz**   | [Download from Baidu](https://pan.baidu.com/s/1dkakRoaVWU3iWRrgSTsIvA)        | `hsy2`          |
+| Dataset | Download Link | Extraction Code |
+| --- | --- | --- |
+| **coco30k.npz** | [Download COCO30K from Baidu](https://pan.baidu.com/s/1EtHNHH5CLGeubB3wl3qDwg) | `f061` |
+| **imagenet50k.npz** | [Download Imagenet50K from Baidu](https://pan.baidu.com/s/1dkakRoaVWU3iWRrgSTsIvA) | `hsy2` |
 
 ~~~python
 python -m pytorch_fid path/to/[datasets].npz path/to/images
