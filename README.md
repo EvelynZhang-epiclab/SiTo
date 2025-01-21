@@ -9,6 +9,8 @@
 ## 🔥 News
 - `2024/12/10`🤗🤗 Our [paper](https://www.researchgate.net/publication/387204421_Training-Free_and_Hardware-Friendly_Acceleration_for_Diffusion_Models_via_Similarity-based_Token_Pruning) is accepted by AAAI-2025
 - `2025/1/18` 💥💥 We release the [code](https://github.com/EvelynZhang-epiclab/SiTo) for our work about accelerating diffusion models for FREE. 🎉 **The zero-shot evaluation shows SiTo leads to 1.90x and 1.75x acceleration on COCO30K and ImageNet with 1.33 and 1.15 FID reduction at the same time. Besides, SiTo has no training requirements and does not require any calibration data, making it plug-and-play in real-world applications.**
+- `2025/1/21` 💿💿 We publish the required image for running our code. Click [here](https://www.codewithgpu.com/i/EvelynZhang-epiclab/SiTo/SiTo-SD) to use it directly.
+
 ## 🌸 Abstract
 <details>
 
@@ -50,6 +52,7 @@ SiTo has a three-stage pipeline.
 ## 🛠 Usage
 ### Dependencies
 To run SiTo for SD, PyTorch version `1.12.1` or higher is required (due to the use of `scatter_reduce`). You can download it from [here](https://pytorch.org/get-started/locally/).
+
 ###  Installation
 ```shell
 git clone https://github.com/EvelynZhang-epiclab/SiTo.git
