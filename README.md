@@ -106,10 +106,7 @@ python scripts/txt2img.py --n_iter 2 --n_samples 4 --W 512 --H 512 --ddim_steps 
 ~~~
 python scripts/txt2img.py --n_iter 3 --n_samples 8 --W 512 --H 512 --ddim_steps 50 --plms --skip_save --skip_grid --from-file xxx.txt
 ~~~
-| Prompt File | Download Link | Extraction Code |
-| --- | --- | --- |
-| **imagenet.txt** | [Download imagenet.txt from Baidu](https://pan.baidu.com/s/19NQbMTmsCTCPz-NF2TjiWw) | `y1lo` |
-| **coco30k.txt** | [Download coco30k.txt from Baidu](https://pan.baidu.com/s/1LveKxVASHzepwVwerdnhPA) | `jmhn` |
+
 
 ## 📐 Evaluation
 
@@ -128,10 +125,7 @@ my_transform = TF.Compose([
 
 - Download Data
 
-| Dataset | Download Link | Extraction Code |
-| --- | --- | --- |
-| **coco30k.npz** | [Download COCO30K from Baidu](https://pan.baidu.com/s/1EtHNHH5CLGeubB3wl3qDwg) | `f061` |
-| **imagenet50k.npz** | [Download Imagenet50K from Baidu](https://pan.baidu.com/s/1dkakRoaVWU3iWRrgSTsIvA) | `hsy2` |
+[https://drive.google.com/drive/folders/1pIZKbvRx1WFAx_6sAaFHW4K6jugc_b3c?usp=drive_link](https://drive.google.com/drive/folders/1pIZKbvRx1WFAx_6sAaFHW4K6jugc_b3c?usp=drive_link)
 
 ~~~python
 python -m pytorch_fid path/to/[datasets].npz path/to/images
